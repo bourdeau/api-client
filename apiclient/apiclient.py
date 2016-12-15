@@ -29,13 +29,14 @@ class ApiClient:
         self.body['grant_type'] = 'client_credentials'
 
     '''
-    Infibite loop to auth
+    Authentication
     '''
     def auth(self):
         self.getConfig()
         authUrl = self.url + '/oauth/v2/token'
         data = self.post(authUrl, self.body)
         self.token = data['body']['access_token']
+        self.log(data)
 
     '''
     Make a post request
