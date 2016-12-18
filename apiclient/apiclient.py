@@ -34,27 +34,32 @@ class ApiClient:
     def auth(self):
         self.getConfig()
         authUrl = self.url + '/oauth/v2/token'
-        data = self.post(authUrl, self.body)
-        self.token = data['body']['access_token']
-        self.log(data)
-
-    '''
-    Make a post request
-    '''
-
-    def post(self, url, body):
-        request = Request(url, urlencode(body).encode())
+        request = Request(authUrl, urlencode(self.body).encode())
         response = urlopen(request)
-
         code = response.getcode()
         body = response.read().decode()
-        result = {'code': code, 'body': json.loads(body)}
-        return result
+        data = {'code': code, 'body': json.loads(body)}
+
+        self.token = data['body']['access_token']
+
+    '''
+    Make a request
+    '''
+    def request(self, url, body=None, method='GET'):
+
+        if not self.token:
+            self.auth()
+
+        header = {'Authorization': 'Bearer '+self.token}
+        request = Request(url, body, header, method)
+        response = urlopen(request, timeout=30)
+        body = response.read().decode()
+
+        return json.loads(body)
 
     '''
     Log something
     '''
-
     def log(self, data):
         with open("logs/prod.log", "a") as myfile:
             myfile.write(str(data) + '\n')

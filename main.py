@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from apiclient import apiclient
+from apiclient import apiRoute
 
-main = apiclient.ApiClient()
-main.auth()
+main = apiRoute.ApiRoute()
+main.getProperty()
