@@ -26,7 +26,7 @@ class ApiClient:
                     self.url = value
                 else:
                     self.body[key] = value
-        self.body['grant_type'] = 'client_credentials'
+        self.body['grant_type'] = 'password'
 
     '''
     Authentication
@@ -51,7 +51,7 @@ class ApiClient:
             self.auth()
 
         header = {'Authorization': 'Bearer '+self.token}
-        request = Request(url, body, header, method)
+        request = Request(url, json.dumps(body).encode('utf8'), header, method)
         response = urlopen(request, timeout=30)
         body = response.read().decode()
 

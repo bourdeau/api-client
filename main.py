@@ -3,4 +3,4 @@
 from apiclient import apiRoute
 
 main = apiRoute.ApiRoute()
-main.getProperty()
+main.createMessage()
