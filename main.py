@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
-from apiclient import apiRoute
+from apiclient import client, logger
 
-main = apiRoute.ApiRoute()
-main.createMessage()
+main = client.Client()
+logger = logger.Logger()
+
+logger.log(main.createMessage())

@@ -6,7 +6,7 @@ import json
 import yaml
 
 
-class ApiClient:
+class Authentication:
 
     def __init__(self):
         self.url = ''
@@ -46,20 +46,11 @@ class ApiClient:
     Make a request
     '''
     def request(self, url, body=None, method='GET'):
-
-        if not self.token:
-            self.auth()
-
+        self.auth()
+        url = self.url+url
         header = {'Authorization': 'Bearer '+self.token}
         request = Request(url, json.dumps(body).encode('utf8'), header, method)
         response = urlopen(request, timeout=30)
         body = response.read().decode()
 
         return json.loads(body)
-
-    '''
-    Log something
-    '''
-    def log(self, data):
-        with open("logs/prod.log", "a") as myfile:
-            myfile.write(str(data) + '\n')
