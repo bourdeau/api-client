@@ -48,8 +48,17 @@ class Authentication:
     def request(self, url, body=None, method='GET'):
         self.auth()
         url = self.url+url
-        header = {'Authorization': 'Bearer '+self.token}
-        request = Request(url, json.dumps(body).encode('utf8'), header, method)
+        header = {
+            'Authorization': 'Bearer '+self.token,
+            'Content-Type': 'application/json',
+            'Accept-Language': 'fr_FR'
+        }
+        if method == 'GET':
+            request = Request(url, None, header, method)
+        elif method == 'POST':
+            content = json.dumps(body).encode('utf8')
+            request = Request(url, content, header, 'POST')
+
         response = urlopen(request, timeout=30)
         body = response.read().decode()
 

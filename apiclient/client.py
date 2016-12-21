@@ -13,7 +13,6 @@ class Client:
 
     def getProperty(self):
         return self.auth.request('/properties/70')
-        # self.auth.log(result)
 
     def createMessage(self):
         body = {
